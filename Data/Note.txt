@@ -1,0 +1,107 @@
+2018_05_23, input power, 220mW, 6.1um, 100MHz, 1000064 points
+2018_05_25_1, output power, 200mW (1.8A), 6.1um, 10MHz, 20000064 points
+2018_05_25_2, output power, 170mW (1.6A), 6.1um, 10MHz, 20000064 points
+2018_05_25_3, output power, 130mW (1.4A), 6.1um, 10MHz, 20000064 points
+2018_05_25_4, output power, 75mW (1.2A), 6.1um, 10MHz, 20000064 points
+2018_05_25_5, output power, 46mW (1.1A), 6.1um, 10MHz, 20000064 points
+2018_05_25_6, output power, 35mW (1.05A), 6.1um, 10MHz, 20000064 points
+2018_05_25_7, output power, 25mW (1.00A), 6.1um, 10MHz, 20000064 points
+2018_05_25_8, output power, 15mW (0.95A), 6.1um, 10MHz, 20000064 points
+2018_05_25_9, output power, 9mW (0.90A), 6.1um, 10MHz, 20000064 points
+2018_05_25_10, output power, 4mW (0.85A), null, 10MHz, 20000064 points
+2018_05_25_11, output power, 200mW (1.8A), null, 10MHz, 20000064 points
+2018_05_25_12, output power, 170mW (1.6A), null, 10MHz, 20000064 points
+2018_05_25_13, output power, 130mW (1.4A), null, 10MHz, 20000064 points
+2018_05_25_14, output power, 75mW (1.2A), null, 10MHz, 20000064 points
+2018_05_25_15, output power, 46mW (1.1A), null, 10MHz, 20000064 points
+2018_05_25_16, output power, 35mW (1.05A), null, 10MHz, 20000064 points
+2018_05_25_17, output power, 25mW (1.00A), null, 10MHz, 20000064 points
+2018_05_25_18, output power, 15mW (0.95A), null, 10MHz, 20000064 points
+2018_05_25_19, output power, 9mW (0.90A), null, 10MHz, 20000064 points
+2018_06_05_1, block the beam, null, 10MHz, 1000128 points
+2018_06_05_2, output power, 124mW(82+37) (1.4A), null, 10MHz, 2000128 points
+2018_06_05_3, output power, 124mW(60+60) (1.4A), null, 10MHz, 2000128 points
+2018_06_06_1, output power, 130mW (1.4A), 6.1um, 10MHz, 2000128 points
+2018_06_07_1, output power, 70mW (1.2A), 3.01um, 10MHz, 2000128 points, saturated
+2018_06_18_1, output power, 86mW (1.4A), 3.01um, 10MHz, 4000128 points
+2018_06_18_2, output power, 50mW (1.2A), 3.01um, 10MHz, 4000128 points
+2018_06_18_3, output power, 18mW (1.0A), 3.01um, 10MHz, 4000128 points
+2018_06_18_4, output power, 100mW (1.4A), null, 10MHz, 4000128 points
+2018_06_18_5, output power, 58mW (1.2A), null, 10MHz, 4000128 points
+2018_06_18_6, output power, 20mW (1.0A), null, 10MHz, 4000128 points
+2018_07_11_1, output power, 150mW (1.675A), 5.09um, 10MHz, 4000128 points
+2018_07_11_2, output power, 80mW (1.4A), 5.09um, 10MHz, 4000128 points
+2018_07_17_1, output power, 32mW (1.2A), 3.17um, 10MHz, 4000128 points (note: suspected error)
+2018_07_17_2, output power, 32mW (1.2A), null, 10MHz, 4000128 points (note: suspected error)
+2018_07_17_3, output power, 32mW (1.2A), 3.17um, 10MHz, 4000128 points (note: suspected error)
+2018_07_24_1, output power, 145mW (1.4A), 4.74um?, 10MHz, 4000128 points (still unsure about detection alignment)
+2018_07_24_2, output power, 145mW (1.4A), null, 10MHz, 4000128 points (unsure about detection)
+2018_07_26_1, output power, 50mW (1.2A), 4.74um, 10MHz, 4000128 points (aligned with multimeter)
+2018_07_26_2, output power, 50mW (1.2A), 4.74um, 10MHz, 4000128 points (re-aligned with multimeter)
+2018_07_26_3, output power, 50mW (1.2A), null, 10MHz, 4000128 points (re-aligned with multimeter)
+2018_07_30_1, output power, 13mW (1.0A), 4.74um, 10MHz, 4000128 points
+2018_07_30_2, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_3, output power, 25mW (1.1A), 4.74um, 10MHz, 4000128 points, saturated
+2018_07_30_4, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_5, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_6, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_7, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_8, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_9, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_10, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_11, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_12, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_13, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_14, output power, 9mW (0.95A), 4.74um, 10MHz, 4000128 points
+2018_07_30_15, output power, 5mW (0.9A), 4.74um, 10MHz, 4000128 points
+2018_07_30_16, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_17, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_18, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_19, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_20, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_21, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_22, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_23, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_24, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_25, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_26, output power, 19mW (1.05A), null, 10MHz, 4000128 points
+2018_07_30_27, output power, 19mW (1.05A), null, 10MHz, 4000128 points
+2018_07_30_28, output power, 19mW (1.05A), 4.74um, 10MHz, 4000128 points
+2018_07_30_29, output power, 45mW (1.2A), 4.74um, 10MHz, 4000128 points
+2018_07_30_30, output power, 75mW (1.4A), 4.74um, 10MHz, 4000128 points
+2018_07_30_31, output power, 19mW (1.05A), null, 10MHz, 4000128 points
+2018_07_30_32, output power, 19mW (1.05A), null, 10MHz, 4000128 points (note: lights off)
+2018_07_31_1, output power, 45mW (1.2A), null, 10MHz, 4000128 points
+2018_07_31_2, output power, 45mW (1.2A), 5.09um, 10MHz, 4000128 points
+2018_07_31_3, output power, 45mW (1.2A), 5.09um, 10MHz, 4000128 points (optimized detector knobs)
+2018_07_31_4, output power, 90mW (1.4A), 5.09um, 10MHz, 4000128 points (upped power, centered D-shaped mirror)
+2018_07_31_5, output power, 90mW (1.4A), 5.09um, 10MHz, 4000128 points
+2018_07_31_6, output power, 90mW (1.4A), null, 10MHz, 4000128 points
+2018_07_31_7, output power, 90mW (1.4A), null, 10MHz, 4000128 points (intensity noise, mirror pushed forward)
+2018_07_31_8, output power, 90mW (1.4A), null, 10MHz, 4000128 points (intensity noise, mirror pushed back)
+2018_07_31_9, output power, 0mW (beam blocked), null, 10MHz, 4000128 points
+2018_07_31_10, output power, 90mW (1.4A), null, 10MHz, 4000128 points (close PD blocked)
+2018_07_31_11, output power, 90mW (1.4A), null, 10MHz, 4000128 points (far PD blocked)
+2018_07_31_12, output power, 90mW (1.4A), null, 10MHz, 4000128 points
+2018_07_31_13, output power, 90mW (1.4A), 5.09um, 10MHz, 4000128 points
+2018_07_31_14, output power, 90mW (1.4A), 5.09um, 10MHz, 4000128 points
+2018_07_31_15, output power, 90mW (1.4A), 5.09um, 10MHz, 4000128 points
+2018_08_01_1, detecting beam from laser directly, 65mw (1.1A), 10MHz, 4000128 points
+2018_08_01_2, detecting beam from laser directly, 65mw (1.1A), 10MHz, 4000128 points
+2018_08_01_3, detecting beam from laser directly, 65mw (1.1A), 10MHz, 4000128 points (intensity noise,mirror pushed forward)
+2018_08_01_4, detecting beam from laser directly, 65mw (1.1A), 10MHz, 4000128 points (intensity noise,mirror pushed back)
+2018_08_01_5, detecting beam from laser directly, 65mw (1.1A), 10MHz, 4000128 points
+2018_08_01_6, detecting beam from laser directly, 65mw (1.1A), 10MHz, 4000128 points (close PD blocked)
+2018_08_01_7, detecting beam from laser directly, 65mw (1.1A), 10MHz, 4000128 points (far PD blocked)
+2018_08_01_8, detecting beam after back AOM directly, 40mw (1.1A), 10MHz, 4000128 points
+2018_08_01_9, detecting beam after back AOM directly, 40mw (1.1A), 10MHz, 4000128 points (intensity noise,mirror pushed forward)
+2018_08_01_10, detecting beam after back AOM directly, 40mw (1.1A), 10MHz, 4000128 points (intensity noise,mirror pushed back)
+2018_08_01_11, detecting beam after back AOM directly, 40mw (1.1A), 10MHz, 4000128 points
+2018_08_01_12, detecting beam after back AOM directly, 40mw (1.1A), 10MHz, 4000128 points (close PD blocked)
+2018_08_01_13, detecting beam after back AOM directly, 40mw (1.1A), 10MHz, 4000128 points (far PD blocked)
+2018_08_01_14, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points
+2018_08_01_15, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points (intensity noise,mirror pushed forward)
+2018_08_01_16, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points (intensity noise,mirror pushed back)
+2018_08_01_17, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points
+2018_08_01_18, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points (close PD blocked)
+2018_08_01_19, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points (far PD blocked)
