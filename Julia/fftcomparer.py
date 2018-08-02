@@ -56,14 +56,11 @@ if (option == "split, far PD blocked"):
 
 #alt file organization system
     #list of four tuples (name, data )
-data = [('split', {}), ('intensity', {}), ('split, near PD blocked', {}), ('split, far PD blocked', {})]
+data = [('split', []), ('intensity', []), ('split, near PD blocked', []), ('split, far PD blocked', [])]
 
 
 
 ## reads fft files, plots them 
-def initializedictionary():
-    fftdata = {}
-    return fftdata
 
 def readfiles(run):  
     
@@ -82,49 +79,67 @@ def readfiles(run):
     
     return fft,freq
             
-data[0][1]["pure laser, split onto both PDs"] = readfiles('2018_08_01_1_n_fft.txt')
-data[0][1]["through back AOM, split onto both PDs"] = readfiles('2018_08_01_8_n_fft.txt')
-data[0][1]["through front AOM, split onto both PDs"] = readfiles('2018_08_01_14_n_fft.txt')
-data[0][1]["through trap, split onto both PDs"] = readfiles('2018_07_31_12_n_fft.txt')
+data[0][1].append(readfiles('2018_08_01_1_n_fft.txt'))
+data[0][1].append(readfiles('2018_08_01_8_n_fft.txt'))
+data[0][1].append(readfiles('2018_08_01_14_n_fft.txt'))
+data[0][1].append(readfiles('2018_07_31_12_n_fft.txt'))
 
-data[1][1]["pure laser fully incident on back PD"] = readfiles("2018_08_01_4_n_fft.txt")
-data[1][1]["through back AOM fully incident on back PD"] = readfiles("2018_08_01_10_n_fft.txt")
-data[1][1]["through front AOM fully incident on back PD"] = readfiles("2018_08_01_16_n_fft.txt")
-data[1][1]["through trap fully incident on back PD"] = readfiles("2018_07_31_10_n_fft.txt")
+data[1][1].append(readfiles("2018_08_01_4_n_fft.txt"))
+data[1][1].append(readfiles("2018_08_01_10_n_fft.txt"))
+data[1][1].append(readfiles("2018_08_01_16_n_fft.txt"))
+data[1][1].append(readfiles("2018_07_31_10_n_fft.txt"))
 
-data[2][1]["pure laser, split, near PD blocked"] = readfiles("2018_08_01_6_n_fft.txt")
-data[2][1]["through back AOM, split, near PD blocked"] = readfiles("2018_08_01_12_n_fft.txt")
-data[2][1]["through front AOM, split, near PD blocked"] = readfiles("2018_08_01_18_n_fft.txt")
-data[2][1]["through trap, split, near PD blocked"] = readfiles("2018_07_31_10_n_fft.txt")
+data[2][1].append(readfiles("2018_08_01_6_n_fft.txt"))
+data[2][1].append(readfiles("2018_08_01_12_n_fft.txt"))
+data[2][1].append(readfiles("2018_08_01_18_n_fft.txt"))
+data[2][1].append(readfiles("2018_07_31_10_n_fft.txt"))
 
-data[3][1]["pure laser, split, far PD blocked"] = readfiles("2018_08_01_7_n_fft.txt")
-data[3][1]["through back AOM, split, far PD blocked"] = readfiles("2018_08_01_13_n_fft.txt")
-data[3][1]["through front AOM, split, far PD blocked"] = readfiles("2018_08_01_19_n_fft.txt")
-data[3][1]["through trap, split, far PD blocked"] = readfiles("2018_07_31_11_n_fft.txt")
+data[3][1].append(readfiles("2018_08_01_7_n_fft.txt"))
+data[3][1].append(readfiles("2018_08_01_13_n_fft.txt"))
+data[3][1].append(readfiles("2018_08_01_19_n_fft.txt"))
+data[3][1].append(readfiles("2018_07_31_11_n_fft.txt"))
     
-try: fftdata
-except NameError:
-    fftdata = initializedictionary()
-    readfiles()
-    
-
-    
+      
 def plot():
     f, ax = plt.subplots(4, 4, figsize = (20,15), sharex='col', sharey='row')
+    ax[0, 0].set_title('pure laser')
+    ax[0, 1].set_title('through back AOM')
+    ax[0, 2].set_title('through front AOM')
+    ax[0, 3].set_title('through trap')
+    
+    ax[0, 0].set_ylabel('split onto both PDs')
+    ax[1, 0].set_ylabel('fully incident on back PD')
+    ax[2, 0].set_ylabel('near PD blocked')
+    ax[3, 0].set_ylabel('far PD blocked')
+    
+    for (m,n), subplot in np.ndenumerate(ax):
+        ax[m, n].set_xscale('log')
+        ax[m, n].set_yscale('log')
+    for i in range(4):
+        ax[3, i].set_xlabel('frequency (Hz)')
+   
+
     counter1 = 0
     for tuple_ in data:
-        dict_ = tuple_[1]
+        list_ = tuple_[1]
         counter2 = 0
-        for list_ in dict_:
-            freq,fft = dict_[list_][0], dict_[list_][1]
+        for fft_ in list_:
+            fft, freq = fft_[0], fft_[1]
             ax[counter1, counter2].plot(freq, abs(fft)**2, ',')
-            ax[counter1, counter2].set_title(j)
-            if counter1 == 3:
-                ax[counter1, counter2].set_xlabel('frequency (Hz)')
-            ax[counter1, counter2].set_xscale('log')
-            ax[counter1, counter2].set_yscale('log')
-            
-            
+            #ax[counter1, counter2].set_title(list_)
+          
             counter2 +=1
         counter1 += 1
+    
+    plt.show()
+    
+    f, ax = plt.subplots(figsize = (5,3))
+    fft, freq = readfiles('2018_07_31_9_n_fft.txt')
+    ax.plot(freq, abs(fft)**2), ','
+    ax.set_title('blocked beam')
+    ax.set_xlabel('frequency (Hz)')
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    
+    plt.show()
 
