@@ -10,9 +10,8 @@ import numpy as np
 import parameters
 import sys
 
-#input the names of
-    #1: a data run of the form 'yyyy_mm_dd'
-    #2: a noise run of the form 'yyyy_mm_dd_n'
+## run is in the form 'yyyy_mm_dd_#' with '_n' if applicable
+## location is a path, MUST have a slash at the end
 
 run = sys.argv[1]
 location = sys.argv[2]
