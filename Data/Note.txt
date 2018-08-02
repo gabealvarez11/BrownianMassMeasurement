@@ -105,3 +105,6 @@
 2018_08_01_17, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points
 2018_08_01_18, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points (close PD blocked)
 2018_08_01_19, detecting beam after front AOM directly, 35mw (1.1A), 10MHz, 4000128 points (far PD blocked)
+2018_08_02_1, output power, 32mW (1.1A), null, 10MHz, 4000128 points
+2018_08_02_2, output power, 32mW (1.1A), null, 10MHz, 4000128 points
+2018_08_02_3, output power, 32mW (1.1A), null, 10MHz, 4000128 points (took vacuum pump off of table)
