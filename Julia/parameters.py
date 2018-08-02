@@ -8,6 +8,6 @@ Created on Wed Aug  1 13:04:44 2018
 
 sampling_freq = 10000000.
 
-raw_data_location           = '/Users/juliaorenstein/GitHub/BrownianMotionExperiment/Data/rawdata/'
+raw_data_location           = '/Users/juliaorenstein/GitHub/BrownianMassMeasurement/Data/rawdata/'
 fft_data_location           = '/Users/juliaorenstein/Desktop/ffts/'
-subtracted_data_location    = '/Users/juliaorenstein/GitHub/BrownianMotionExperiment/Data/subtracted/'
+subtracted_data_location    = '/Users/juliaorenstein/GitHub/BrownianMassMeasurement/Data/subtracted/'

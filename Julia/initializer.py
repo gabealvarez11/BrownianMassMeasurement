@@ -7,7 +7,6 @@ Created on Wed Jul 25 13:55:47 2018
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 import glob
 import parameters
 
@@ -16,7 +15,7 @@ fouriers = glob.glob(parameters.fft_data_location + '*.txt')
 
 runs = []
 for i in datalocs:
-    runs.append(i[67:-4])
+    runs.append(i[66:-4])
 
 noises = []
 window = 10000
@@ -66,7 +65,7 @@ finally:
     
     def exportfft(run):
         print 'exporting fft to file...'
-        filename = '../Data/ffts/' + run + '_fft.txt'
+        filename = parameters.fft_data_location + run + '_fft.txt'
         with open(filename, 'w') as newfile:
             for i in range(len(fftdata[run][0])):
                 newfile.write(str(fftdata[run][0][i]) + ' ' + str(fftdata[run][1][i].real) + ' ' + str(fftdata[run][1][i].imag))
@@ -79,7 +78,7 @@ finally:
         freqtmp = []
         fftrealtmp = []
         fftimagtmp = []
-        with open('../Data/ffts/' + run + '_fft.txt') as ffttext:
+        with open(parameters.fft_data_location + run + '_fft.txt') as ffttext:
             for line in ffttext:
                 freqtmp.append(float(line.split()[0]))
                 fftrealtmp.append(float(line.split()[1]))
