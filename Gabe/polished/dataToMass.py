@@ -18,6 +18,7 @@ binning = 30
 
 #dataName: [label,sampling rate (Hz), number of data points, diameter (um), desired temporal resolution (s), desired bin count]
 dataList = {}
+
 """
 dataList.update({"../../data/rawdata/2018_06_06_1.txt":[1,10.**7,length,6.1,5*10**(-6),binning]}) #2000128
 dataList.update({"../../data/subtracted/2018_06_06_1_sub.txt":[2,10.**7,length,6.1,5*10**(-6),binning]}) #2000128
