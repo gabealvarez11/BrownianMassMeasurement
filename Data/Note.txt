@@ -108,3 +108,4 @@
 2018_08_02_1, output power, 32mW (1.1A), null, 10MHz, 4000128 points
 2018_08_02_2, output power, 32mW (1.1A), null, 10MHz, 4000128 points
 2018_08_02_3, output power, 32mW (1.1A), null, 10MHz, 4000128 points (took vacuum pump off of table)
+2018_08_02_4, output power, 32mW (1.1A), null, 10MHz, 4000128 points (back beam before AOM, through trap, split onto both PDs)
