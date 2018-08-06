@@ -135,7 +135,7 @@ def plot():
     
     f, ax = plt.subplots(figsize = (5,3))
     fft, freq = readfiles('2018_07_31_9_n_fft.txt')
-    ax.plot(freq, abs(fft)**2), ','
+    ax.plot(freq, abs(fft)**2, ',')
     ax.set_title('blocked beam')
     ax.set_xlabel('frequency (Hz)')
     ax.set_xscale('log')

@@ -111,3 +111,5 @@
 2018_08_02_4, output power, 40mW (1.1A), null, 10MHz, 4000128 points (back beam before AOM, through trap, split onto both PDs)
 2018_08_06_1, output power, 40mW (1.1A), null, 10MHz, 4000128 points (back beam before AOM, through trap, split onto both PDs)
 2018_08_06_2, output power, 40mW (1.1A), null, 10MHz, 4000128 points (back beam before AOM, through trap, split onto both PDs, but AOM driver on)
+2018_08_06_3, output power, 40mW (1.1A), null, 10MHz, 4000128 points (same as above, noise eater off)
+2018_08_06_4, output power, 40mW (1.1A), null, 10MHz, 4000128 points (AOM off, noise eater off)
