@@ -114,3 +114,5 @@
 2018_08_06_3, output power, 40mW (1.1A), null, 10MHz, 4000128 points (same as above, noise eater off)
 2018_08_06_4, output power, 40mW (1.1A), null, 10MHz, 4000128 points (AOM off, noise eater off)
 2018_08_07_1, output power, 67mW (1.2A), null, 10MHz, 4000128 points (after taking out front AOM completely)
+2018_08_07_2, output power, 67mW (1.2A), null, 10MHz, 4000128 points (same as above, but balanced power between PDs)
+2018_08_07_3, output power, 67mW (1.2A), null, 10MHz, 4000128 points (calibrated detector)
