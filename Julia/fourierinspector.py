@@ -55,7 +55,8 @@ def plotffts(runs):
         print
         print 'peaks in ' + i + ':'
         j = max(power[1:-1])
-        print str(freq[power.index(j)]) + 'Hz, ' + str(j)            
+        print str(freq[power.index(j)]) + 'Hz, ' + str(j) 
+    plt.title('after AOM removal and realignment')           
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel('frequency (Hz)')
