@@ -116,3 +116,6 @@
 2018_08_07_1, output power, 67mW (1.2A), null, 10MHz, 4000128 points (after taking out front AOM completely)
 2018_08_07_2, output power, 67mW (1.2A), null, 10MHz, 4000128 points (same as above, but balanced power between PDs)
 2018_08_07_3, output power, 67mW (1.2A), null, 10MHz, 4000128 points (calibrated detector)
+2018_08_08_1, output power, 40mW (1.1A), 5.07um (likely multiple), 10MHz, 4000128 points
+2018_08_09_1, output power, 30mW (1.05A), 5.07um, 10MHz, 4000128 points
+2018_08_09_2, output power, 30mW (1.05A), null, 10MHz, 4000128 points 
