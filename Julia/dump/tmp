@@ -1,0 +1,57 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Aug  9 21:13:08 2018
+
+@author: juliaorenstein
+"""
+
+import time
+import numpy as np
+import matplotlib.pyplot as plt
+import parameters
+
+freq = None
+power = None
+
+def makedata(run):
+    global freq
+    global power
+    start = time.time()
+    print 'doing fft...'
+    position = np.array(list(open(parameters.raw_data_location + run + '.txt', 'r')), dtype = float)
+    fft = np.fft.fft(position)
+    power = abs(fft)**2
+    freq = np.fft.fftfreq(position.size, 1/parameters.sampling_freq)
+    print time.time() - start
+
+      
+def plot():
+    
+    peakfreqs = []
+    peaks = []
+    for i, val in enumerate(power):
+        if val > 10**4 and freq[i] > 1000 and freq[i] < 4000:
+            peakfreqs.append(freq[i])
+            peaks.append(val)
+            print str(freq[i]) + ': ' + str(val)
+            
+
+    
+    plt.plot(freq, power, ',')
+    plt.plot(peakfreqs, peaks, ',', color = 'green')
+    
+    '''  
+    plt.axvline(x = 1400)
+    plt.axvline(x = 2300)
+    plt.axvline(x = 250000)
+    plt.axvline(x = 530000)
+    '''  
+    plt.axvspan(1400, 2300, alpha=0.5, color='red')
+    plt.axvspan(250000, 530000, alpha=0.5, color='red')
+    
+    plt.title('power spectrum for 2018_08_07_3_n')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.xlabel('frequency (Hz)')
+    #plt.xlim(100000, 900000)

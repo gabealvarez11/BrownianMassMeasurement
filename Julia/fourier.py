@@ -41,8 +41,6 @@ def exportfft(location_, run):
     freq = fourier(run)[0]
     fft = fourier(run)[1]
     print 'exporting fft to file...'
-    if location_[-1] is not '/':
-        location_ += '/'
     filename = location + run + '_fft.txt'
     with open(filename, 'w') as newfile:
         for i in range(len(freq)):
