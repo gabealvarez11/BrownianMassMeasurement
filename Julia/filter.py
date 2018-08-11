@@ -20,21 +20,20 @@ import parameters
 ## run is in the form 'yyyy_mm_dd_#' with '_n' if applicable
 ## location is a path, MUST have a slash at the end
 
-default_run = '2018_07_31_13' #w'yyyy_mm_dd'
+default_run = '2018_07_30_28' #w'yyyy_mm_dd'
 default_noiserun = '2018_08_07_1_n'#'yyyy_mm_dd(_n)'
-#default_location = '../Data/rawdata/' #'../../../wherever you want/' -- make sure it ends in a slash!
 samplingfreq = 10000000.
 
 datalocation = parameters.raw_data_location + default_run + '.txt'
 
-#if you're gabe and this isn't working, go into my parameters file and change the locations so they work on your computer
+#if you're gabe and this isn't working, go into my parameters.py file and change the locations so they work on your computer
 
-print 'loading file:' + default_run
+print 'loading file: ' + default_run
 
 data = np.array(list(open(datalocation, 'r')), dtype = float)
 
 ###########################################################
-### USE plot_fft(run) TO PLOT A SINGLE FOURIER TRANSFORM ###
+### USE plot_fft() TO PLOT A SINGLE FOURIER TRANSFORM ###
 ###########################################################
 
 # runs fourier analysis on positional data
@@ -68,7 +67,7 @@ def plot_fft(run = default_run):
     
 def filter_noise(run = default_run, plot = True):
     
-    filters = [(1400, 2300), (250000, 530000)]
+    filters = [(1400, 2300), (250000, 530000)] # ranges that will be filtered
     use_average = False # make this true if you're setting filtered values to some average instead of 0
     
     freq, fft = fourier(run)
@@ -76,6 +75,7 @@ def filter_noise(run = default_run, plot = True):
     fftnew = np.array(fft)  
 
     # average = TK
+    print 'applying filters...'
     for i, val in enumerate(freq):
         # apply filters
         for pair in filters:
@@ -119,6 +119,7 @@ def compare_position(run = default_run, window = 10000):
     
     fftnew = filter_noise(run, False)[0]
     
+    print 'converting filtered fft data back to positional data...'
     t = np.arange(window)/samplingfreq
     newdata = np.fft.ifft(fftnew).real
     
@@ -141,12 +142,16 @@ def export_filtered_data(run = default_run):
     position = np.fft.ifft(fftnew).real
     filename = run + '_fil.txt'
     
-    with open('../Data/filtered/' + filename, 'w') as newfile:
+    print 'writing the new filtered file...'
+    
+    with open(parameters.filtered_data_location + filename, 'w') as newfile:
         for i in position:
             newfile.write(str(i))
             newfile.write('\n')
     
-    with open('../Data/filtered/filter_note.txt', 'a') as note:
+    print 'updating note'
+    
+    with open(parameters.filtered_data_location + 'filter_note.txt', 'a') as note:
         note.write(run + ': ')
         if use_average:
             note.write('average')
@@ -165,7 +170,7 @@ def export_filtered_data(run = default_run):
 #####################################################################################################################
 
 def subtract(datarun = default_run, noiserun = default_noiserun, plot = True):
-    print 'subtracting noise from data fft...'
+    print 'subtracting noise from data fft.'
     freq, fft_data = fourier(datarun)
     fft_noise = fourier(noiserun)[1]
 

@@ -10,4 +10,5 @@ sampling_freq = 10000000.
 
 raw_data_location           = '../Data/rawdata/'
 fft_data_location           = '/Users/juliaorenstein/Desktop/ffts/'
+filtered_data_location      = '../Data/filtered/'
 subtracted_data_location    = '..//Data/subtracted/'
