@@ -92,7 +92,7 @@ def filter_noise(run = default_run, plot = True):
         for pair in filters:
             plt.axvspan(pair[0], pair[1], alpha=0.25, color='red')
         
-        plt.title('comparing ffts before and after noise reduction: ' + run)
+        plt.title('comparing ffts before and after noise canceling: ' + run)
         plt.xlabel('frequency (Hz)')
         plt.xscale('log')
         plt.yscale('log')
@@ -162,6 +162,9 @@ def export_filtered_data(run = default_run):
             note.write(str(pair[0]) + ' - ' + str(pair[1]))
             note.write('\n')
         note.write('\n')
+    
+    
+    
     
 #####################################################################################################################
 ### THIS IS OUR OLD METHOD OF SUBTRACTED NOISE FILES FROM DATA FILES. PROBABLY WON'T NEED IT BUT JUST IN CASE #######
