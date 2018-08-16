@@ -13,8 +13,8 @@ from scipy import optimize
 calibrationFactor = 5.35e-7
 
 #manually controls data input
-length = 400000
-binning = 30
+length = 40000
+binning = 50
 
 #dataName: [label,sampling rate (Hz), number of data points, diameter (um), desired temporal resolution (s), desired bin count]
 dataList = {}
@@ -32,8 +32,13 @@ for i in range(1):
     print name
     dataList.update({name:[i,10**7,length,4.74,5*10**(-6),binning]})
 """
+#good
+#dataList.update({"../../data/rawdata/2018_07_31_13.txt":[1,10.**7,length,5.07,5*10**(-6),binning]})
 
-dataList.update({"../../data/rawdata/2018_07_31_13.txt":[1,10.**7,length,5.07,5*10**(-6),binning]})
+#bad
+#dataList.update({"../../data/rawdata/2018_08_09_1.txt":[2,10.**7,length,5.07,5*10**(-6),binning]})
+
+dataList.update({"../../data/rawdata/2018_08_15_4.txt":[3,10.**7,length,6.10,1*10**(-6),binning]})
 
 #expected mass (kg) of microsphere of associated diameter (m)
 def expectedMass(diameter):
@@ -83,7 +88,7 @@ def distribution(velocities, binCount_):
     return prob, binCenters, binWidth_
 
 #extracts mass (kg) from data
-def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,label_=0):
+def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,label_=-1):
     
     #convert between voltage and position
     posData = calib(calibrationFactor_,voltData_)
@@ -92,7 +97,7 @@ def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,label_=
     
     vProb, vBins, vBinWidth = distribution(vel, binCount_)
     
-    params, cov = optimize.curve_fit(mbDist,vBins,vProb/vBinWidth,p0=(float(0.237)),bounds=(5e-3,10))
+    params, cov = optimize.curve_fit(mbDist,vBins,vProb/vBinWidth,p0=(float(0.237)),bounds=(5e-5,10))
     measuredMass = params[0]*10**(-12)
     
     if(label_>-1):

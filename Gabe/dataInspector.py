@@ -8,7 +8,7 @@ Created on Thu Jul 19 09:54:36 2018
 import matplotlib.pyplot as plt
 
 files = {}
-files.update({"harryNoise":"../data/rawdata/2018_06_05_3_n.txt","harryData":"../data/rawdata/2018_06_06_1.txt"})
+#files.update({"harryNoise":"../data/rawdata/2018_06_05_3_n.txt","harryData":"../data/rawdata/2018_06_06_1.txt"})
 #files.update({"ourNoise":"../data/rawdata/2018_07_17_2_n.txt","ourData":"../data/rawdata/2018_07_17_3.txt"})
 
 #files.update({"7/30 data":"../data/rawdata/2018_07_30_20.txt","7/30 noise":"../data/rawdata/2018_07_30_26_n.txt"})
@@ -25,8 +25,11 @@ files.update({"harryNoise":"../data/rawdata/2018_06_05_3_n.txt","harryData":"../
 
 #files.update({"7/31 data":"../data/rawdata/2018_07_31_13.txt"})
 
-files.update({"laser noise":"../data/rawdata/2018_08_01_1.txt"})
-length = 100
+#files.update({"laser noise":"../data/rawdata/2018_08_01_1_n.txt"})
+
+files.update({"bead":"../data/rawdata/2018_08_16_3.txt"})
+files.update({"nc":"../data/filtered/2018_08_16_3_fil.txt"})
+length = 1000
 
 t = range(0,length)
 for i in files:

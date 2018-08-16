@@ -118,4 +118,7 @@
 2018_08_07_3, output power, 67mW (1.2A), null, 10MHz, 4000128 points (calibrated detector)
 2018_08_08_1, output power, 40mW (1.1A), 5.07um (likely multiple), 10MHz, 4000128 points
 2018_08_09_1, output power, 30mW (1.05A), 5.07um, 10MHz, 4000128 points
-2018_08_09_2, output power, 30mW (1.05A), null, 10MHz, 4000128 points 
+2018_08_09_2, output power, 30mW (1.05A), null, 10MHz, 4000128 points
+2018_08_09_3, output power, 30mW (1.05A), null, 10MHz, 4000128 points
+2018_08_09_4, output power, 30mW (1.05A), null, 2MHz, 4000128 points
+2018_08_09_5, blocked the beam, 10MHz, 4000128 points 

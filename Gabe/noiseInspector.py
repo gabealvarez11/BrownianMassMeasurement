@@ -7,14 +7,15 @@ Created on Wed Aug 01 14:46:49 2018
 
 import matplotlib.pyplot as plt
 
-length = 100
+length = 1000000
 
 files = {}
-option = "split"
+#option = "split"
 #option = "intensity"
 #option = "split, near PD blocked"
 #option = "split, far PD blocked"
 #option = "vacuum?"
+option = "after AOM removal"
 
 if (option == "split"):
     files.update({"pure laser, split onto both PDs":"../data/rawdata/2018_08_01_1_n.txt"})
@@ -45,7 +46,10 @@ if (option == "vacuum?"):
     files.update({"with vacuum":"../data/rawdata/2018_08_02_2_n.txt"})
     files.update({"without vacuum":"../data/rawdata/2018_08_02_3_n.txt"})
 
-#files.update({"beam blocked":"../data/rawdata/2018_07_31_9_n.txt"})
+if (option == "after AOM removal"):
+    files.update({"data":"../data/rawdata/2018_08_09_1.txt","noise":"../data/rawdata/2018_08_09_2_n.txt"})
+
+files.update({"beam blocked":"../data/rawdata/2018_07_31_9_n.txt"})
 
 print length, "points, sampled from", option
 

@@ -11,7 +11,12 @@ import matplotlib.pyplot as plt
 files = {}
 #files.update({"around AOM but through trap, split onto both PDs":"../data/rawdata/2018_08_02_4_n.txt"})
 #files.update({"with vacuum pump":"../data/rawdata/2018_08_02_2_n.txt","without vacuum pump":"../data/rawdata/2018_08_02_3_n.txt"})
-files.update({"AOMs off":"../data/rawdata/2018_08_06_1_n.txt","AOMs on":"../data/rawdata/2018_08_06_2_n.txt"})
+#files.update({"AOMs off":"../data/rawdata/2018_08_06_1_n.txt","AOMs on":"../data/rawdata/2018_08_06_2_n.txt"})
+
+files.update({"data":"../data/rawdata/2018_08_09_1.txt","noise":"../data/rawdata/2018_08_09_2_n.txt"})
+
+files.update({"beam blocked":"../data/rawdata/2018_08_09_5_n.txt"})
+files.update({"collimated beams":"../data/rawdata/2018_08_15_1.txt"})
 
 def fourier(data,samplingFreq):
     print 'running fourier analysis...'
@@ -20,7 +25,7 @@ def fourier(data,samplingFreq):
     return [freq, fft]
 
 samplingFreq_ = 1e7
-length = 1000000
+length = 4000128
 
 t = range(0,length)
 for i in files:
@@ -31,7 +36,7 @@ for i in files:
     input_file.close()
     
     freq_, fft_ = fourier(sample,samplingFreq_)
-    #plt.figure()
+    plt.figure()
     plt.plot(freq_,np.power(np.abs(fft_),2),",",label=i)
     plt.title(i)
     plt.xlabel("frequency (Hz)")
