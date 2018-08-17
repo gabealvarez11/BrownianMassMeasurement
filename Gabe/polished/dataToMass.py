@@ -10,11 +10,11 @@ import matplotlib.pyplot as plt
 from scipy import optimize
 
 #must first calibrate detector with calibration.py
-calibrationFactor = 5.35e-7
+calibrationFactor = 1.9e-7
 
 #manually controls data input
-length = 40000
-binning = 50
+length = 10000
+binning = 100
 
 #dataName: [label,sampling rate (Hz), number of data points, diameter (um), desired temporal resolution (s), desired bin count]
 dataList = {}
@@ -37,8 +37,11 @@ for i in range(1):
 
 #bad
 #dataList.update({"../../data/rawdata/2018_08_09_1.txt":[2,10.**7,length,5.07,5*10**(-6),binning]})
+#dataList.update({"../../data/rawdata/2018_08_15_4.txt":[3,10.**7,length,6.10,1*10**(-6),binning]})
 
-dataList.update({"../../data/rawdata/2018_08_15_4.txt":[3,10.**7,length,6.10,1*10**(-6),binning]})
+for i in range(5):
+    name = "../../Data/filtered/2018_08_17_" + str(i+13) + "_fil.txt"
+    dataList.update({name:[i+13,10**7,length,6.01,5*10**(-7),binning]})
 
 #expected mass (kg) of microsphere of associated diameter (m)
 def expectedMass(diameter):
