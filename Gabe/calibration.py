@@ -10,11 +10,17 @@ import matplotlib.pyplot as plt
 from scipy import optimize
 
 #dataName: [sampling rate (Hz), number of data points, diameter (um), desired temporal resolution (s), desired bin count]
-dataList = {"../data/2018_06_06_1.txt":[10.**7,20000,6.1,5*10**(-6),50]}
+#dataList = {"../data/2018_06_06_1.txt":[10.**7,20000,6.1,5*10**(-6),50]}
 #dataList.update({"../data/2018_07_17_3.txt":[10.**7,4000128,3.17,5*10**(-6),25]})
 #dataList.update({"../data/2018_06_18_1.txt":[10.**7,4000128,3.01,5*10**(-6),25]})
 #dataList.update({"../data/2018_07_11_1.txt":[10.**7,4000128,5.09,5*10**(-6),25]})
+dataList = {}
 
+#range(5)
+    if(i+13 != 17):
+        name = "../Data/filtered/2018_08_17_" + str(i+13) + "_fil.txt"
+        dataList.update({name:[10**7,4000128,6.10,5*10**(-7),binning]})
+        
 #expected mass (kg) of microsphere of associated diameter (m)
 def expectedMass(diameter):
     density = 2000 #kg/m^3
@@ -103,8 +109,10 @@ def calibrate(data):
             voltData.append(float(input_file.readline()[:-1]))
         input_file.close()
         
+        slicedData = voltData[200:-200]
+
         #result = optimize.brute(massDeviation, ((0.1e-6,0.8e-6),),args=((voltData,sampling,resolution,binCount,diameter)),Ns= 10,full_output = True)
-        result = optimize.minimize(massDeviation,3.27e-7,args=((voltData,sampling,resolution,binCount,diameter)),bounds=((1e-7,1e-4),),tol=1e-7)
+        result = optimize.minimize(massDeviation,3.27e-7,args=((slicedData,sampling,resolution,binCount,diameter)),bounds=((1e-7,1e-4),),tol=1e-7)
         
         print result
         
