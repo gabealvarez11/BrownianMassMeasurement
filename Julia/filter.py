@@ -32,9 +32,9 @@ print 'loading file: ' + default_run
 
 data = np.array(list(open(datalocation, 'r')), dtype = float)
 
-###########################################################
+#########################################################
 ### USE plot_fft() TO PLOT A SINGLE FOURIER TRANSFORM ###
-###########################################################
+#########################################################
 
 # runs fourier analysis on positional data
 def fourier(run = default_run):
@@ -133,13 +133,14 @@ def compare_position(run = default_run, window = 10000):
 
 ###################################################################
 ### THIS WILL EXPORT THE FILTERED DATA TO THE FOLDER 'FILTERED' ###
+### ALSO CUTS OFF FIRST AND LAST 200 POINTS (you can edit the #)###
 ### IT ALSO WRITES TO A NOTE 'filter_note.txt' WITH INFO ABOUT ####
 ### WHAT FFT VALUES WERE FILTERED OUT #############################
 ###################################################################
     
-def export_filtered_data(run = default_run):
+def export_filtered_data(run = default_run, border = 200):
     fftnew, filters, use_average = filter_noise(run, False)
-    position = np.fft.ifft(fftnew).real
+    position = np.fft.ifft(fftnew).real[border: -border]
     filename = run + '_fil.txt'
     
     print 'writing the new filtered file...'
@@ -158,12 +159,12 @@ def export_filtered_data(run = default_run):
         else: 
              note.write('zero')
         note.write('\n')
+        note.write('border = ' + border)
+        note.write('\n')
         for pair in filters:
             note.write(str(pair[0]) + ' - ' + str(pair[1]))
             note.write('\n')
         note.write('\n')
-    
-    
     
     
 #####################################################################################################################

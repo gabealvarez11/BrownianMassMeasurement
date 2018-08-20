@@ -1,5 +1,6 @@
 FORMAT
 yyyy_mm_dd_##: zero/average (depending on what the filtered fft values were set to)
+border = # (number of data points that were cut off from beginning and end of data)
 value ranges that were filtered
 
 2018_07_31_13: zero
