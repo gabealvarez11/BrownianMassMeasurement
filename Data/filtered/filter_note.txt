@@ -1,6 +1,5 @@
 FORMAT
 yyyy_mm_dd_##: zero/average (depending on what the filtered fft values were set to)
-border = # (number of data points that were cut off from beginning and end of data)
 value ranges that were filtered
 
 2018_07_31_13: zero
@@ -24,5 +23,73 @@ value ranges that were filtered
 220000 - 530000
 
 2018_08_17_17: zero
+220000 - 530000
+
+2018_08_17_19: zero
+border = 200
+220000 - 530000
+
+2018_08_17_20: zero
+border = 200
+220000 - 530000
+
+2018_08_17_21: zero
+border = 200
+220000 - 530000
+
+2018_08_17_22: zero
+border = 200
+220000 - 530000
+
+2018_08_17_13: zero
+border = 200
+220000 - 530000
+
+2018_08_17_14: zero
+border = 200
+220000 - 530000
+
+2018_08_17_15: zero
+border = 200
+220000 - 530000
+
+2018_08_17_16: zero
+border = 200
+220000 - 530000
+
+2018_08_17_17: zero
+border = 200
+220000 - 530000
+
+2018_08_15_2: zero
+border = 200
+220000 - 530000
+
+2018_08_15_3: zero
+border = 200
+220000 - 530000
+
+2018_08_15_4: zero
+border = 200
+220000 - 530000
+
+2018_08_15_5: zero
+border = 200
+220000 - 530000
+
+2018_08_15_2: zero
+border = 200
+220000 - 530000
+
+2018_08_15_3: zero
+border = 200
+220000 - 530000
+
+2018_08_15_4: zero
+border = 200
+220000 - 530000
+
+2018_08_15_5: zero
+border = 200
 220000 - 530000
 

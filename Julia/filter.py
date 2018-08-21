@@ -20,7 +20,7 @@ import parameters
 ## run is in the form 'yyyy_mm_dd_#' with '_n' if applicable
 ## location is a path, MUST have a slash at the end
 
-default_run = '2018_07_30_28' #w'yyyy_mm_dd'
+default_run = '2018_08_17_19' #w'yyyy_mm_dd'
 default_noiserun = '2018_08_07_1_n'#'yyyy_mm_dd(_n)'
 samplingfreq = 10000000.
 
