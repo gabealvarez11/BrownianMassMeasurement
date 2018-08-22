@@ -12,32 +12,16 @@ from scipy import optimize
 calibrationFactor = 1.94e-7
 
 #manually controls data input
-powers = [10, 20, 50, 60] # mW
+length = [200,100,50,25,10,5,2.5,1,0.5,0.1] # x 1e4, in milliseconds
 binning = 100
 
 #dataName: [label,sampling rate (Hz), number of data points, diameter (um), desired temporal resolution (s), desired bin count]
-dataList10 = {}
-for i in range(4):
-    name = "../Data/filtered/2018_08_17_" + str(i+19) + "_fil.txt"
-    dataList10.update({name:[i+19,10**7,powers,6.10,5*10**(-7),binning]})
-    
-dataList20 = {}
+dataList = {}
+
 for i in range(5):
-    name = "../Data/filtered/2018_08_17_" + str(i+13) + "_fil.txt"
-    dataList20.update({name:[i+13,10**7,powers,6.10,5*10**(-7),binning]})
-    
-dataList50 = {}
-for i in range(3):
-    name = "../Data/filtered/2018_08_17_" + str(i+1) + "_fil.txt"
-    dataList50.update({name:[i+1,10**7,powers,6.10,5*10**(-7),binning]})
-    
-dataList60 = {}
-for i in range(4):
-    name = "../Data/filtered/2018_08_15_" + str(i+2) + "_fil.txt"
-    dataList60.update({name:[i+2,10**7,powers,6.10,5*10**(-7),binning]})
-
-dataLists = {10: dataList10, 20: dataList20, 50: dataList50, 60: dataList60}
-
+    if(i+13 != 17):
+        name = "../Data/filtered/2018_08_17_" + str(i+13) + "_fil.txt"
+        dataList.update({name:[i+13,10**7,length,6.10,5*10**(-7),binning]})
 
 #expected mass (kg) of microsphere of associated diameter (m)
 def expectedMass(diameter):
@@ -88,7 +72,7 @@ def distribution(velocities, binCount_):
 
 #extracts mass (kg) from data
 def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], label_=-1,counter=0,locs=[] ):
-
+    
     #convert between voltage and position
     posData = calib(calibrationFactor_,voltData_)
    
@@ -102,16 +86,11 @@ def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], 
     if(label_>-1):
         fineBins = np.linspace(vBins[0],vBins[len(vBins)-1],10*len(vBins))
         colorOptions = ["b","g","r","c","m","y","k"]
-        #lineStyle = colorOptions[label_-13] + "-"
-        lineStyle = colorOptions[counter] + '-'
-        #dotStyle = colorOptions[label_-13] + "."
-        dotStyle = colorOptions[counter] + '.'
+        lineStyle = colorOptions[label_-13] + "-"
+        dotStyle = colorOptions[label_-13] + "."
         ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,vBins),vProb,dotStyle)
-        #ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,vBins),vProb)
         label_ = "Trial " + str (label_ - 12) + ": " + str(np.round(measuredMass,decimals=16)) + " kg"
         ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,fineBins),vBinWidth*mbDist(fineBins,*params),lineStyle, label=label_)
-        #ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,fineBins),vBinWidth*mbDist(fineBins,*params), label=label_)
-
     return measuredMass    
 
 #convert between voltage and position
@@ -120,40 +99,40 @@ def calib(calibrationFactor_,voltData_):
     return posData
 
 #controls data processing
-def processData(powers_,data,calibrationFactor_):
+def processData(length_,data,calibrationFactor_):
     counter = 0
     deviations = []
     estimates = []
-    locs = [[0,0],[0,1],[1,0],[1,1]]
-    f, ax = plt.subplots(2,2, figsize=(12,12),sharex=True, sharey=True)
+    locs = [[0,0],[0,1],[0,2],[0,3],[0,4],[1,0],[1,1],[1,2],[1,3],[1,4]]
+    f, ax = plt.subplots(2,5, figsize=(30,20),sharex=True, sharey=True)
     f.subplots_adjust(wspace = 0.1, hspace= 0.05)
 
-    f.suptitle("Velocity Distribution of a Trapped 6.1um Bead vs. Power of Laser",fontsize=20,y=0.92)
+    f.suptitle("Velocity Distribution of a Trapped 6.1um Bead vs. Length of Data Sample",fontsize=20,y=0.92)
     ax[0,0].set_ylabel("Probability")
     ax[1,0].set_ylabel("Probability")
     
-    for power in data.keys():
+    for l in length_:
         print
-        print "power: " + str(power) + "mW"
+        print "LENGTH: ", l, "ms"
         print
         
-        numDataPoints = int(10 * 1e4) ##constant when testing power
+        numDataPoints = int(l * 1e4)
         
-        title_ = str(power) + "mW"
+        title_ = str(l) + " ms"
         ax[locs[counter][0],locs[counter][1]].set_title(title_)
-        if(counter > 1):
+        if(counter > 4):
             ax[locs[counter][0],locs[counter][1]].set_xlabel("Velocity (mm/s)")
         ax[locs[counter][0],locs[counter][1]].set_ylim((0,0.05))
         ax[locs[counter][0],locs[counter][1]].set_xlim((-0.6,0.6))
 
         masses = []
         
-        for i in data[power].keys():
-            label = data[power][i][0]
-            sampling = data[power][i][1]
-            diameter = data[power][i][3] * 10 **(-6)
-            resolution = data[power][i][4]
-            binCount = data[power][i][5]
+        for i in data:
+            label = data[i][0]
+            sampling = data[i][1]
+            diameter = data[i][3] * 10 **(-6)
+            resolution = data[i][4]
+            binCount = data[i][5]
             
             input_file = open(i,"r")
             voltData = []
@@ -182,8 +161,7 @@ def processData(powers_,data,calibrationFactor_):
     plt.savefig("fittings.png")
     return deviations,estimates
 
-
-stdDev,massEstimates = processData(powers, dataLists,calibrationFactor)
+stdDev,massEstimates = processData(length,dataList,calibrationFactor)
 normalizedMass = massEstimates/expectedMass(6.10*10**(-6))
 normStdDev = stdDev/expectedMass(6.10*10**(-6))
 print massEstimates
@@ -193,20 +171,17 @@ f.subplots_adjust(hspace= 0.3)
 
 ax[0].set_title("Mass Estimates")
 ax[0].set_ylabel("Normalized Mass")
-ax[0].set_xlabel("Power (mW)")
-#ax[0].set_xscale("log")
-ax[0].errorbar(powers,normalizedMass,yerr=normStdDev)
+ax[0].set_xlabel("Length of Data Sample (ms)")
+ax[0].set_xscale("log")
+ax[0].errorbar(length,normalizedMass,yerr=normStdDev)
 #ax[0].axhline(y=1,linestyle="dashed")
 #ax[0].set_ylim(0.6,1.2)
 
 ax[1].set_title("Standard Deviation of Mass Estimates")
 ax[1].set_ylabel("Error of Normalized Mass")
-ax[1].set_xlabel("Power (mW)")
-#ax[1].set_xscale("log")
+ax[1].set_xlabel("Length of Data Sample (ms)")
+ax[1].set_xscale("log")
 ax[1].set_yscale("log")
-ax[1].plot(powers, normStdDev)
-    
-#    f.savefig("errors.png")
-    
-    
-    
+ax[1].plot(length, normStdDev)
+
+f.savefig("errors.png")
