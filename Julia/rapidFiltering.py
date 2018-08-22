@@ -8,8 +8,8 @@ Created on Fri Aug 17 11:07:21 2018
 import filter_noise
 
 files = []
-for i in range(4):
-    name = "2018_08_15_" + str(2+i)
+for i in range(3):
+    name = "2018_08_17_" + str(1+i)
     files.append(name)
     
 for j in files:
