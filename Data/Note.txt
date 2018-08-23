@@ -164,3 +164,26 @@
 2018_08_17_30, output power, 50mW (1.4A), null, 10MHz, 4000128 points
 2018_08_17_31, output power, 20mW (1.1A), null, 10MHz, 4000128 points (sonicator on)
 2018_08_20_1, output power, 20mW (1.1A), 6.1um, 10MHz, 4000128 points
+2018_08_22_1, output power, 14mW (1.0A), 6.1um, 10MHz, 4000128 points
+2018_08_22_2, output power, 25mW (1.1A), 6.1um, 10MHz, 4000128 points (might have lost bead)
+2018_08_22_3, output power, 24mW (1.1A), 6.1um, 10MHz, 4000128 points
+2018_08_22_4, output power, 35mW (1.2A), 6.1um, 10MHz, 4000128 points
+2018_08_22_5, output power, 47mW (1.3A), 6.1um, 10MHz, 4000128 points
+2018_08_22_6, output power, 59mW (1.4A), 6.1um, 10MHz, 4000128 points
+2018_08_22_7, output power, 65mW (1.5A), 6.1um, 10MHz, 4000128 points
+2018_08_22_8, output power, 73mW (1.6A), 6.1um, 10MHz, 4000128 points
+2018_08_22_9, output power, 78mW (1.7A), 6.1um, 10MHz, 4000128 points
+2018_08_22_10, output power, 85mW (1.8A), 6.1um, 10MHz, 4000128 points
+2018_08_22_11, output power, 89mW (1.9A), 6.1um, 10MHz, 4000128 points
+2018_08_22_12, output power, 94mW (2.0A), 6.1um, 10MHz, 4000128 points
+2018_08_22_13, output power, 14mW (1.0A), 6.1um, 10MHz, 4000128 points
+2018_08_22_14, output power, 24mW (1.1A), 6.1um, 10MHz, 4000128 points
+2018_08_22_15, output power, 35mW (1.2A), 6.1um, 10MHz, 4000128 points
+2018_08_22_16, output power, 47mW (1.3A), 6.1um, 10MHz, 4000128 points
+2018_08_22_17, output power, 59mW (1.4A), 6.1um, 10MHz, 4000128 points
+2018_08_22_18, output power, 65mW (1.5A), 6.1um, 10MHz, 4000128 points
+2018_08_22_19, output power, 73mW (1.6A), 6.1um, 10MHz, 4000128 points
+2018_08_22_20, output power, 78mW (1.7A), 6.1um, 10MHz, 4000128 points
+2018_08_22_21, output power, 85mW (1.8A), 6.1um, 10MHz, 4000128 points
+2018_08_22_22, output power, 89mW (1.9A), 6.1um, 10MHz, 4000128 points
+2018_08_22_23, output power, 94mW (2.0A), 6.1um, 10MHz, 4000128 points

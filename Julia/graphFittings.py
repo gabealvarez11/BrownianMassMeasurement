@@ -12,16 +12,19 @@ from scipy import optimize
 calibrationFactor = 1.94e-7
 
 #manually controls data input
-length = [200,100,50,25,10,5,2.5,1,0.5,0.1] # x 1e4, in milliseconds
+current = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0] # in Amps
 binning = 100
 
-#dataName: [label,sampling rate (Hz), number of data points, diameter (um), desired temporal resolution (s), desired bin count]
+#dataName: [label,sampling rate (Hz), injection current, diameter (um), desired temporal resolution (s), desired bin count]
 dataList = {}
 
-for i in range(5):
-    if(i+13 != 17):
-        name = "../Data/filtered/2018_08_17_" + str(i+13) + "_fil.txt"
-        dataList.update({name:[i+13,10**7,length,6.10,5*10**(-7),binning]})
+with open('../Data/Note.txt') as note:
+    for line in note:
+        if '2018_08_22' in line:
+            run = line.split(',')[0]
+            i = line[line.index('A')-3:line.index('A')]
+            dataList['../Data/rawdata/' + run + '.txt'] = \
+                    [run, 10**7, i, 6.10, 5*10**(-7), binning]
 
 #expected mass (kg) of microsphere of associated diameter (m)
 def expectedMass(diameter):
@@ -98,8 +101,31 @@ def calib(calibrationFactor_,voltData_):
     posData = [x * calibrationFactor_ for x in voltData_]
     return posData
 
+def process(current_, calibrationfactor_):
+    deviations = []
+    estimates = [] 
+    
+    #plot initialization
+    f, ax = plt.subplots(2,5, figsize=(30,20),sharex=True, sharey=True)
+    f.subplots_adjust(wspace = 0.1, hspace= 0.05)
+    f.suptitle("Velocity Distribution of a Trapped 6.1um Bead vs. current of Data Sample",fontsize=20,y=0.92)
+    
+    expMass = expectedMass(diameter)
+    measuredMass = getMass(calibrationFactor_,slicedData,sampling,resolution,binCount,ax, label,counter,locs)
+    masses.append(measuredMass)
+
+    for p in current_:
+        print
+        print 'CURRENT: ' + str
+        print 
+        
+        numDataPoinst = 10000
+        
+        
+        
+
 #controls data processing
-def processData(length_,data,calibrationFactor_):
+def processData(current_,data,calibrationFactor_):
     counter = 0
     deviations = []
     estimates = []
@@ -107,18 +133,18 @@ def processData(length_,data,calibrationFactor_):
     f, ax = plt.subplots(2,5, figsize=(30,20),sharex=True, sharey=True)
     f.subplots_adjust(wspace = 0.1, hspace= 0.05)
 
-    f.suptitle("Velocity Distribution of a Trapped 6.1um Bead vs. Length of Data Sample",fontsize=20,y=0.92)
+    f.suptitle("Velocity Distribution of a Trapped 6.1um Bead vs. current of Data Sample",fontsize=20,y=0.92)
     ax[0,0].set_ylabel("Probability")
     ax[1,0].set_ylabel("Probability")
     
-    for l in length_:
+    for i in current_:
         print
-        print "LENGTH: ", l, "ms"
+        print "CURRENT: ", i, "ms"
         print
         
-        numDataPoints = int(l * 1e4)
+        numDataPoints = int(1 * 1e4)
         
-        title_ = str(l) + " ms"
+        title_ = str(i) + "A"
         ax[locs[counter][0],locs[counter][1]].set_title(title_)
         if(counter > 4):
             ax[locs[counter][0],locs[counter][1]].set_xlabel("Velocity (mm/s)")
@@ -139,11 +165,9 @@ def processData(length_,data,calibrationFactor_):
             for lines in range(numDataPoints):
                 voltData.append(float(input_file.readline()[:-1]))
             input_file.close()
-            
-            slicedData = voltData[200:-200]
         
             expMass = expectedMass(diameter)
-            measuredMass = getMass(calibrationFactor_,slicedData,sampling,resolution,binCount,ax, label,counter,locs)
+            measuredMass = getMass(calibrationFactor_, voltData ,sampling,resolution,binCount,ax, label,counter,locs)
             masses.append(measuredMass)
             print "label: ", label
             print "diameter: ", diameter
@@ -161,7 +185,7 @@ def processData(length_,data,calibrationFactor_):
     plt.savefig("fittings.png")
     return deviations,estimates
 
-stdDev,massEstimates = processData(length,dataList,calibrationFactor)
+stdDev,massEstimates = processData(current,dataList,calibrationFactor)
 normalizedMass = massEstimates/expectedMass(6.10*10**(-6))
 normStdDev = stdDev/expectedMass(6.10*10**(-6))
 print massEstimates
@@ -171,17 +195,17 @@ f.subplots_adjust(hspace= 0.3)
 
 ax[0].set_title("Mass Estimates")
 ax[0].set_ylabel("Normalized Mass")
-ax[0].set_xlabel("Length of Data Sample (ms)")
+ax[0].set_xlabel("current of Data Sample (ms)")
 ax[0].set_xscale("log")
-ax[0].errorbar(length,normalizedMass,yerr=normStdDev)
+ax[0].errorbar(current,normalizedMass,yerr=normStdDev)
 #ax[0].axhline(y=1,linestyle="dashed")
 #ax[0].set_ylim(0.6,1.2)
 
 ax[1].set_title("Standard Deviation of Mass Estimates")
 ax[1].set_ylabel("Error of Normalized Mass")
-ax[1].set_xlabel("Length of Data Sample (ms)")
+ax[1].set_xlabel("current of Data Sample (ms)")
 ax[1].set_xscale("log")
 ax[1].set_yscale("log")
-ax[1].plot(length, normStdDev)
+ax[1].plot(current, normStdDev)
 
 f.savefig("errors.png")

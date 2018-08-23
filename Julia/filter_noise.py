@@ -16,11 +16,20 @@ Created on Tue Aug  7 13:59:42 2018
 import numpy as np
 import matplotlib.pyplot as plt
 import parameters
+import glob
+
+
+locs = glob.glob('../Data/rawdata/2018_08_22*')
+runs = []
+
+for i in locs:
+    runs.append(i[16:-4])
+
 
 ## run is in the form 'yyyy_mm_dd_#' with '_n' if applicable
 ## location is a path, MUST have a slash at the end
 
-default_run = '2018_08_17_19' #w'yyyy_mm_dd'
+default_run = '2018_08_22_11' #w'yyyy_mm_dd'
 default_noiserun = '2018_08_07_1_n'#'yyyy_mm_dd(_n)'
 samplingfreq = 10000000.
 
@@ -51,14 +60,23 @@ def plot_fft(run = default_run):
     freq, fft = fourier(run)
     power = abs(fft)**2
     
-    plt.axvspan(1400, 2300, alpha=0.25, color='red')
-    plt.axvspan(250000, 530000, alpha=0.25, color='red')
+    testffts = []
+    
+    for i, val in enumerate(fft):
+        if abs(freq[i]) > 10**5:
+            testffts.append(abs(val))
+            
+    l_bound = freq[testffts.index(max(testffts))]-150000
+    u_bound = freq[testffts.index(max(testffts))]+500000
+                     
+    plt.axvspan(l_bound, u_bound, alpha=0.25, color='red')
     
     plt.title('power spectrum: ' + run)
     plt.xlabel('frequency (Hz)')
     plt.xscale('log')
     plt.yscale('log')
     plt.plot(freq, power, ',')
+    plt.show()
     
 ##################################################################################
 ### USE THIS TO COMPARE FFTS BEFORE AND AFTER NOISE CANCELING ####################
@@ -104,6 +122,7 @@ def filter_noise(run = default_run, plot = True):
         plt.xscale('log')
         plt.yscale('log')
         plt.plot(freq, powernew, ',')
+        plt.show()
         
     return fftnew, filters, use_average
 
