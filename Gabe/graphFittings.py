@@ -5,24 +5,33 @@ Created on Fri Aug 17 12:29:51 2018
 @author: alvar
 """
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from scipy import optimize
 
+matplotlib.rcParams.update({'errorbar.capsize': 5})
+matplotlib.rcParams.update({'font.size': 12})
+
 #must first calibrate detector with calibration.py
-calibrationFactor = 1.94e-7
+calibrationFactor = 4.3e-7
 
 #manually controls data input
-length = [200,100,50,25,10,5,2.5,1,0.5,0.1] # x 1e4
-binning = 100
-
+length0="x"
+length = [399,200,100,50,25,10,5,2.5,1,0.5] # x 1e4
+#length = [10,9,8,7,6,5,4,3,2,1]
+#length= [10]
+binning = 50
+resolution=4e-6
 #dataName: [label,sampling rate (Hz), number of data points, diameter (um), desired temporal resolution (s), desired bin count]
 dataList = {}
 
 for i in range(5):
     if(i+13 != 17):
-        name = "../Data/filtered/2018_08_17_" + str(i+13) + "_fil.txt"
-        dataList.update({name:[i+13,10**7,length,6.10,5*10**(-7),binning]})
+        name = "../Data/rawdata/2018_08_17_" + str(i+13) + ".txt"
+        dataList.update({name:[i+13,10**7,length0,6.10,resolution,binning,"data"]})
 
+dataList.update({"../Data/filtered/2018_08_17_27_n_fil.txt":[14,10**7,length,0,resolution,binning,"noise"]})
+#dataList.update({"../Data/rawdata/2018_08_17_27_n.txt":[19,10**7,length,0,0.5*10**(-6),binning]})
 #expected mass (kg) of microsphere of associated diameter (m)
 def expectedMass(diameter):
     density = 2000 #kg/m^3
@@ -31,12 +40,16 @@ def expectedMass(diameter):
 #defines boltzmann's constant
 k = 1.38064852*10**(-23)
 
-#returns product kT, assumes room temperature of 298K
+#returns product kT, assumes room temperature of 295.25K
 def getkT():
-    return k * 298
+    return k * 295.25
+
+def getRMSvel(mass):
+    return np.sqrt(getkT()/mass)
 
 #calculates instantaneous velocity (m/s) from calibrated position data (m) as a function of time (intervals of 1/sampling s)
 #returns velocity (m/s) as a function of time (intervals of resolution)
+"""
 def velocity(pos,resolution, sampling):   
     timeStep = int(np.ceil(resolution*sampling))
     
@@ -47,6 +60,23 @@ def velocity(pos,resolution, sampling):
         
         velocityVal = (secondHalf - firstHalf)/resolution
         velocity.append(velocityVal)
+    return velocity
+"""
+
+def avgPos(pos,resolution,sampling):
+    timeStep = int(np.ceil(resolution*sampling))
+    avg = []
+    for i in np.arange(timeStep,len(pos)-(timeStep),timeStep):
+        avg.append(np.average(pos[i-timeStep/2:i+timeStep/2]))
+    return avg
+        
+def velocity(pos,resolution,sampling):
+    averagedPos = avgPos(pos,resolution,sampling)
+    velocity = []
+    for counter,value in enumerate(averagedPos):
+        if not(counter+1 >=len(averagedPos)):
+            velocityVal = (averagedPos[counter+1]-averagedPos[counter])/resolution
+            velocity.append(velocityVal)
     return velocity
 
 #maxwell boltzmann velocity distribution in one dimension, takes mass in nanograms
@@ -71,7 +101,7 @@ def distribution(velocities, binCount_):
     return prob, binCenters, binWidth_
 
 #extracts mass (kg) from data
-def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], label_=-1,counter=0,locs=[] ):
+def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], label_=-1,counter=0,locs=[],name=""):
     
     #convert between voltage and position
     posData = calib(calibrationFactor_,voltData_)
@@ -80,16 +110,19 @@ def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], 
     
     vProb, vBins, vBinWidth = distribution(vel, binCount_)
     
-    params, cov = optimize.curve_fit(mbDist,vBins,vProb/vBinWidth,p0=(float(0.237)),bounds=(5e-5,10))
+    params, cov = optimize.curve_fit(mbDist,vBins,vProb/vBinWidth,p0=(float(0.237e-3)))
     measuredMass = params[0]*10**(-12)
     
     if(label_>-1):
-        fineBins = np.linspace(vBins[0],vBins[len(vBins)-1],10*len(vBins))
+        fineBins = np.linspace(vBins[0],vBins[len(vBins)-1],100*len(vBins))
         colorOptions = ["b","g","r","c","m","y","k"]
         lineStyle = colorOptions[label_-13] + "-"
         dotStyle = colorOptions[label_-13] + "."
         ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,vBins),vProb,dotStyle)
-        label_ = "Trial " + str (label_ - 12) + ": " + str(np.round(measuredMass,decimals=16)) + " kg"
+        if not (name == "noise"):
+            label_ = "Trial " + str (label_ - 12) + ": " + str(np.round(measuredMass,decimals=16)) + " kg"
+        else:
+            label_ = "Noise"
         ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,fineBins),vBinWidth*mbDist(fineBins,*params),lineStyle, label=label_)
     return measuredMass    
 
@@ -122,8 +155,8 @@ def processData(length_,data,calibrationFactor_):
         ax[locs[counter][0],locs[counter][1]].set_title(title_)
         if(counter > 4):
             ax[locs[counter][0],locs[counter][1]].set_xlabel("Velocity (mm/s)")
-        ax[locs[counter][0],locs[counter][1]].set_ylim((0,0.05))
-        ax[locs[counter][0],locs[counter][1]].set_xlim((-0.6,0.6))
+        ax[locs[counter][0],locs[counter][1]].set_ylim((0,0.08))
+        ax[locs[counter][0],locs[counter][1]].set_xlim((-0.5,0.5))
 
         masses = []
         
@@ -133,18 +166,22 @@ def processData(length_,data,calibrationFactor_):
             diameter = data[i][3] * 10 **(-6)
             resolution = data[i][4]
             binCount = data[i][5]
-            
+            name = data[i][6]
             input_file = open(i,"r")
             voltData = []
             for lines in range(numDataPoints):
                 voltData.append(float(input_file.readline()[:-1]))
             input_file.close()
             
-            slicedData = voltData[200:-200]
+            #slicedData = voltData[200:-200]
         
             expMass = expectedMass(diameter)
-            measuredMass = getMass(calibrationFactor_,slicedData,sampling,resolution,binCount,ax, label,counter,locs)
-            masses.append(measuredMass)
+            measuredMass = getMass(calibrationFactor_,voltData,sampling,resolution,binCount,ax, label,counter,locs,name)
+            if not (name == "noise"):
+                masses.append(measuredMass)
+            else:
+                noiseMass = measuredMass
+                
             print "label: ", label
             print "diameter: ", diameter
             print "expected mass: ", np.round(expMass,decimals=16)
@@ -154,7 +191,7 @@ def processData(length_,data,calibrationFactor_):
         
         deviations.append(np.std(masses))
         estimates.append(np.mean(masses))
-        legendLabel = "Std. Dev. of Mass: " + str(np.round(np.std(masses),decimals=16)) + " kg"
+        legendLabel = "Std. Dev. of Mass: " + str(np.round(np.std(masses),decimals=16)) + " kg \n S/N: " + str(np.round(np.power(getRMSvel(np.mean(masses))/getRMSvel(noiseMass),2),decimals=2))
         ax[locs[counter][0],locs[counter][1]].legend(title=legendLabel,loc = 'upper center')
         counter = counter + 1
 
@@ -171,9 +208,9 @@ f.subplots_adjust(hspace= 0.3)
 
 ax[0].set_title("Mass Estimates")
 ax[0].set_ylabel("Normalized Mass")
-ax[0].set_xlabel("Length of Data Sample (ms)")
+#ax[0].set_xlabel("Length of Data Sample (ms)")
 ax[0].set_xscale("log")
-ax[0].errorbar(length,normalizedMass,yerr=normStdDev)
+ax[0].errorbar(length,normalizedMass,yerr=normStdDev,fmt="o")
 #ax[0].axhline(y=1,linestyle="dashed")
 #ax[0].set_ylim(0.6,1.2)
 

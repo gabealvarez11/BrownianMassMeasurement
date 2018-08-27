@@ -17,6 +17,7 @@ from scipy import optimize
 dataList = {}
 
 #range(5)
+for i in range(5):
     if(i+13 != 17):
         name = "../Data/filtered/2018_08_17_" + str(i+13) + "_fil.txt"
         dataList.update({name:[10**7,4000128,6.10,5*10**(-7),binning]})
@@ -31,7 +32,7 @@ k = 1.38064852*10**(-23)
 
 #returns product kT, assumes room temperature of 298K
 def getkT():
-    return k * 298
+    return k * 295.25
 
 #calculates instantaneous velocity (m/s) from calibrated position data (m) as a function of time (intervals of 1/sampling s)
 #returns velocity (m/s) as a function of time (intervals of resolution)

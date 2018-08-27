@@ -32,18 +32,22 @@ files.update({"harryNoise":"../data/rawdata/2018_06_05_3_n.txt","harryData":"../
 #files.update({"low power":"../data/rawdata/2018_08_16_5.txt"})
 
 #files.update({"aligned":"../data/rawdata/2018_08_17_1.txt"})
-
+"""
 for i in range(5):
     name = "../Data/filtered/2018_08_17_" + str(13+i) + "_fil.txt"
     files.update({str(i+13):name})
+   """ 
+files.update({str(20):"../Data/rawdata/2018_08_17_27_n.txt"})
+files.update({str(21):"../Data/filtered/2018_08_17_27_n_fil.txt"})
 
 #for i in range(5):
  #   noise = "../Data/rawdata/2018_08_17_" + str(25+i) + "_n.txt"
   #  files.update({str(i+25):noise})
     
-length = 1000
-
-t = range(0,length)
+length = 200000
+width = 10000
+start = 200
+t = range(0,width)
 for i in files:
     input_file = open(files[i],"r")
     sample = []
@@ -51,7 +55,8 @@ for i in files:
         sample.append(float(input_file.readline()[:-1]))
     input_file.close()
     
+    slicedSample = sample[start:start+width]
     #print sample
     plt.figure()
-    plt.plot(t,sample,)
+    plt.plot(t,slicedSample)
     plt.title(i)
