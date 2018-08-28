@@ -8,7 +8,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-matplotlib.rcParams.update({'font.size': 12}) #45
+matplotlib.rcParams.update({'font.size': 45}) #45
 """
 def velocity(pos,resolution, sampling):   
     timeStep = int(np.ceil(resolution*sampling))
@@ -62,7 +62,7 @@ def velocity(pos,resolution,sampling):
 
 fileName = "../Data/filtered/2018_08_17_13_fil.txt"
 #fileName = "../Data/rawdata/2018_08_17_13.txt"
-calibrationFactor = 4.6e-7 #1.94
+calibrationFactor = 4.0e-7 #1.94
 sampling = 1e7
 length = 200000
 width = 20000
@@ -83,25 +83,26 @@ input_file.close()
 slicedSample = sample[start:start+width]
 
 
-f, ax = plt.subplots(9,1,figsize=(10,40),sharex=True)
+f, ax = plt.subplots(4,1,figsize=(20,40),sharex=True)
 f.subplots_adjust(hspace= 0.1)
-f.suptitle("Result of Numerical Derivative on a 6.1um Bead",y=0.9)
+f.suptitle("Result of numerical derivative on a 6.1um bead",y=0.94)
 ax[0].plot(np.dot(1e-4,t),np.dot(np.dot(calibrationFactor,slicedSample),1e9),marker =",")
 #ax[0].plot(np.dot(1e-4,posTime),np.dot(averagedPos,1e9),marker = "o",color="r")
+f.subplots_adjust(hspace= 0.17)
 
 ax[0].set_ylabel("Position (nm)")
-ax[0].set_title("Positional Data")
+ax[0].set_title("Positional data")
 avglength=[0.2,0.5,1,2,3,4,5,10]
-
-for i in range(8):
+avglength = [0.2,1,5]
+for i in range(3):
     res = avglength[i]
     vTime, vel = velocity(np.dot(calibrationFactor,slicedSample),res*10**(-6),sampling)
     #posTime,averagedPos = avgPos(np.dot(calibrationFactor,slicedSample),res,sampling)
     ax[i+1].plot(np.dot(1e-4,vTime),np.dot(1e3,vel),marker=".",color="r")
     ax[i+1].set_ylabel("Velocity (mm/s)")
-    ax[i+1].set_title("Averaging Time: " + str(res) + "us")
+    ax[i+1].set_title("Averaging time: " + str(res) + "us")
     
-ax[8].set_xlabel("Time (ms)")
-ax[8].xaxis.set_ticks(np.arange(0,2.1, 1.0))
+ax[3].set_xlabel("Time (ms)")
+ax[3].xaxis.set_ticks(np.arange(0,2.1, 1))
 
 f.savefig("posAndVel.png")

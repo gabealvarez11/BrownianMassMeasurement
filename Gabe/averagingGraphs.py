@@ -144,7 +144,7 @@ def processData(avglength_,data,calibrationFactor_):
     f, ax = plt.subplots(2,4, figsize=(30,20),sharex=False, sharey=False)
     f.subplots_adjust(wspace = 0.15, hspace= 0.15)
 
-    f.suptitle("Signal to Noise Ratios for Various Averaging Lengths (All at Total Sample Length 2ms)",fontsize=20,y=0.95)
+    f.suptitle("Signal to Noise Ratios for Various Averaging Lengths (All at Total Sample Length 200ms)",fontsize=20,y=0.95)
     ax[0,0].set_ylabel("Probability")
     ax[1,0].set_ylabel("Probability")
     
