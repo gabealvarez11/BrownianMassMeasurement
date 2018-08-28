@@ -7,6 +7,7 @@ Created on Fri Aug 17 12:29:51 2018
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import optimize
+import os.path
 
 #must first calibrate detector with calibration.py
 calibrationFactor = 1.94e-7
@@ -16,6 +17,7 @@ current = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0] # in Amps
 binning = 100
 
 #dataName: [label,sampling rate (Hz), injection current, diameter (um), desired temporal resolution (s), desired bin count]
+
 dataList = {}
 
 with open('../Data/Note.txt') as note:
@@ -85,15 +87,14 @@ def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], 
     
     params, cov = optimize.curve_fit(mbDist,vBins,vProb/vBinWidth,p0=(float(0.237)),bounds=(5e-5,10))
     measuredMass = params[0]*10**(-12)
+
+    colorOptions = ["b","g","r","c","m","y","k", "xkcd:rose", "xkcd:burnt orange"]
     
-    if(label_>-1):
-        fineBins = np.linspace(vBins[0],vBins[len(vBins)-1],10*len(vBins))
-        colorOptions = ["b","g","r","c","m","y","k"]
-        lineStyle = colorOptions[label_-13] + "-"
-        dotStyle = colorOptions[label_-13] + "."
-        ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,vBins),vProb,dotStyle)
-        label_ = "Trial " + str (label_ - 12) + ": " + str(np.round(measuredMass,decimals=16)) + " kg"
-        ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,fineBins),vBinWidth*mbDist(fineBins,*params),lineStyle, label=label_)
+    lineStyle = colorOptions[label_-13] + "-"
+    dotStyle = colorOptions[label_-13] + "."
+    ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,vBins),vProb,dotStyle)
+    label_ = "Trial " + str (label_ - 12) + ": " + str(np.round(measuredMass,decimals=16)) + " kg"
+    ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,fineBins),vBinWidth*mbDist(fineBins,*params),lineStyle, label=label_)
     return measuredMass    
 
 #convert between voltage and position
@@ -101,26 +102,68 @@ def calib(calibrationFactor_,voltData_):
     posData = [x * calibrationFactor_ for x in voltData_]
     return posData
 
-def process(current_, calibrationfactor_):
+def process(current_, dataList_, calibrationfactor_):
+    counter = 0
     deviations = []
-    estimates = [] 
-    
-    #plot initialization
-    f, ax = plt.subplots(2,5, figsize=(30,20),sharex=True, sharey=True)
+    estimates = []
+    f, ax = plt.subplots(2,5, figsize=(10,5))
     f.subplots_adjust(wspace = 0.1, hspace= 0.05)
-    f.suptitle("Velocity Distribution of a Trapped 6.1um Bead vs. current of Data Sample",fontsize=20,y=0.92)
-    
-    expMass = expectedMass(diameter)
-    measuredMass = getMass(calibrationFactor_,slicedData,sampling,resolution,binCount,ax, label,counter,locs)
-    masses.append(measuredMass)
 
-    for p in current_:
+    f.suptitle("Velocity Distribution of a Trapped 6.1um Bead vs. current of Data Sample",fontsize=20,y=0.92)
+    ax.set_ylabel("Probability")
+    
+    for i in current_:
         print
-        print 'CURRENT: ' + str
-        print 
+        print "CURRENT: ", i, "ms"
+        print
         
-        numDataPoinst = 10000
+        numDataPoints = int(1 * 1e4)
         
+        title_ = str(i) + "A"
+        ax[locs[counter][0],locs[counter][1]].set_title(title_)
+        if(counter > 4):
+            ax[locs[counter][0],locs[counter][1]].set_xlabel("Velocity (mm/s)")
+        ax[locs[counter][0],locs[counter][1]].set_ylim((0,0.05))
+        ax[locs[counter][0],locs[counter][1]].set_xlim((-0.6,0.6))
+
+        masses = []
+        
+        for i in data:
+            label = data[i][0]
+            sampling = data[i][1]
+            diameter = data[i][3] * 10 **(-6)
+            resolution = data[i][4]
+            binCount = data[i][5]
+            
+            input_file = open(i,"r")
+            voltData = []
+            for lines in range(numDataPoints):
+                voltData.append(float(input_file.readline()[:-1]))
+            input_file.close()
+        
+            expMass = expectedMass(diameter)
+            measuredMass = getMass(calibrationFactor_, voltData ,sampling,resolution,binCount,ax, label,counter,locs)
+            masses.append(measuredMass)
+            print "label: ", label
+            print "diameter: ", diameter
+            print "expected mass: ", np.round(expMass,decimals=16)
+            print "measured mass: ", np.round(measuredMass,decimals=16)
+            print "ratio: ", np.round(expMass / measuredMass,decimals=3)
+            print
+        
+        deviations.append(np.std(masses))
+        estimates.append(np.mean(masses))
+        legendLabel = "Std. Dev. of Mass: " + str(np.round(np.std(masses),decimals=16)) + " kg"
+        ax[locs[counter][0],locs[counter][1]].legend(title=legendLabel,loc = 'upper center')
+        counter = counter + 1
+
+    plt.savefig("fittings.png")
+    return deviations,estimates
+
+        
+        
+        
+    
         
         
 

@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import parameters
 import glob
 
-
+calibration_fac = 4*10**(-7)
 locs = glob.glob('../Data/rawdata/2018_08_22*')
 runs = []
 
@@ -47,6 +47,7 @@ data = np.array(list(open(datalocation, 'r')), dtype = float)
 
 # runs fourier analysis on positional data
 def fourier(run = default_run):
+    
     global data
     if run != default_run:
         data = np.array(list(open(parameters.raw_data_location + run + '.txt', 'r')), dtype = float)
@@ -56,7 +57,8 @@ def fourier(run = default_run):
     return freq, fft
 
 # plots it
-def plot_fft(run = default_run):
+def plot_fft(run = default_run, plot = True, window = None):
+    filters = [(229000, 236000),(65400, 65500),(3.3*10**6, 3.35*10**6),(3.45*10**6, 3.5*10**6),(4.9*10**6, 5*10**6)]
     freq, fft = fourier(run)
     power = abs(fft)**2
     
@@ -68,15 +70,25 @@ def plot_fft(run = default_run):
             
     l_bound = freq[testffts.index(max(testffts))]-150000
     u_bound = freq[testffts.index(max(testffts))]+500000
-                     
-    plt.axvspan(l_bound, u_bound, alpha=0.25, color='red')
     
-    plt.title('power spectrum: ' + run)
-    plt.xlabel('frequency (Hz)')
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.plot(freq, power, ',')
-    plt.show()
+    filters.append((l_bound, u_bound))
+    
+    if plot == True:
+                 
+        plt.axvspan(l_bound, u_bound, alpha=0.25, color='red')
+        for i in filters:
+            plt.axvspan(i[0], i[1], alpha=0.25, color = 'red')
+        
+        plt.title('power spectrum: ' + run)
+        plt.xlabel('frequency (Hz)')
+        plt.xscale('log')
+        plt.yscale('log')
+        if window != None:         
+            plt.xlim(window[0], window[1])
+        plt.plot(freq, power, ',')
+        plt.show()
+    
+    return filters
     
 ##################################################################################
 ### USE THIS TO COMPARE FFTS BEFORE AND AFTER NOISE CANCELING ####################
@@ -85,7 +97,7 @@ def plot_fft(run = default_run):
     
 def filter_noise(run = default_run, plot = True):
     
-    filters = [(220000, 530000)] # ranges that will be filtered
+    filters = plot_fft(run, plot = False) # ranges that will be filtered
     use_average = False # make this true if you're setting filtered values to some average instead of 0
     
     freq, fft = fourier(run)
@@ -98,31 +110,52 @@ def filter_noise(run = default_run, plot = True):
         # apply filters
         for pair in filters:
             if abs(val) > pair[0] and abs(val) < pair[1]:
-                fftnew[i] = 0
+                fftnew[i] = 0  
         if val == 0:
             fftnew[i] = 0
             #fftnew[i] = average #if we decide filters should use average value instead of 0
     powernew = abs(fftnew)**2
      
     if plot:
-        plt.figure(figsize = (10,5))
-        plt.subplot(121)
+        plt.figure(figsize = (10,10))
+        plt.suptitle('Power spectra and positional data, before and after noise filtering')
+        
+        plt.subplot(221)
         for pair in filters:
             plt.axvspan(pair[0], pair[1], alpha=0.25, color='red')
-        
-        plt.title('comparing ffts before and after noise canceling: ' + run)
-        plt.xlabel('frequency (Hz)')
+        plt.xlabel('Frequency (Hz)')
         plt.xscale('log')
         plt.yscale('log')
+        plt.ylabel('Power spectrum')
+        plt.title('Before')
         plt.plot(freq, power, ',')
-        plt.plot(freq, powernew, ',')
+
         
-        plt.subplot(122)
-        plt.xlabel('frequency (Hz)')
+        plt.subplot(222)
+        plt.xlabel('Frequency (Hz)')
         plt.xscale('log')
         plt.yscale('log')
-        plt.plot(freq, powernew, ',')
+        plt.title('After')
+        plt.plot(freq, powernew, ',')        
+        window = 500
+        
+        
+        t = np.arange(window)/samplingfreq
+        fftnew = filter_noise(run, False)[0]
+        newdata = calibration_fac*np.fft.ifft(fftnew)
+        
+        plt.subplot(223)
+        plt.xlabel('Time (s)')
+        plt.ylabel('Positional data')
+        plt.plot(t, data[200:window+200], lw = 1)
+        
+        plt.subplot(224)
+        plt.xlabel('Time (s)')
+        plt.plot(t, newdata[200:window+200], lw = 1)
+        
         plt.show()
+        
+        
         
     return fftnew, filters, use_average
 
@@ -147,7 +180,6 @@ def compare_position(run = default_run, window = 10000):
     plt.ylabel('voltage (V)')
     plt.plot(t, data[:window], lw = 1)
     plt.plot(t, newdata[:window], lw =1)
-
 
 
 ###################################################################
