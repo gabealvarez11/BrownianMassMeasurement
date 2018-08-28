@@ -147,11 +147,11 @@ def filter_noise(run = default_run, plot = True):
         plt.subplot(223)
         plt.xlabel('Time (s)')
         plt.ylabel('Positional data')
-        plt.plot(t, data[200:window+200], lw = 1)
+        plt.plot(t, data[1000:window+1000], lw = 1)
         
         plt.subplot(224)
         plt.xlabel('Time (s)')
-        plt.plot(t, newdata[200:window+200], lw = 1)
+        plt.plot(t, newdata[1000:window+1000], lw = 1)
         
         plt.show()
         
