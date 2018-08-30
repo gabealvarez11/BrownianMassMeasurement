@@ -129,10 +129,17 @@ def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], 
         dist = np.dot(vBinWidth,mbDist(fineBins,*params))
         ax[counter].plot(np.dot(1e3,vBins),np.divide(vProb,np.max(dist)),dotStyle)
         if not (name == "noise"):
-            label_ = "Trial " + numOptions[label_ - 13] + ": " + str(np.round(measuredMass,decimals=16)) + " kg"
+            if(label_==13):
+                label_="Data"
+                #label_ = "Trial " + numOptions[label_ - 13] + ": " + str(np.round(measuredMass,decimals=16)) + " kg"
+                ax[counter].plot(np.dot(1e3,fineBins),np.divide(dist,np.max(dist)),lineStyle,linewidth=5)
+            else:
+                ax[counter].plot(np.dot(1e3,fineBins),np.divide(dist,np.max(dist)),lineStyle,linewidth=5)
+ 
         else:
             label_ = "Noise"
-        ax[counter].plot(np.dot(1e3,fineBins),np.divide(dist,np.max(dist)),lineStyle, label=label_,linewidth=5)
+            ax[counter].plot(np.dot(1e3,fineBins),np.divide(dist,np.max(dist)),lineStyle ,linewidth=5)
+            
     return measuredMass    
 
 #convert between voltage and position
@@ -150,7 +157,7 @@ def processData(length_,data,calibrationFactor_):
     f.subplots_adjust(wspace = 0.1, hspace= 0.05)
 
     f.suptitle("Velocity distribution of a trapped 6.1um bead vs. length of data sample (" + str(binning) + " bins, " + str(np.dot(1e6,RESOLUTION)) + "us averaging time)",fontsize=55,y=0.96)
-    ax[0].set_ylabel("Normalized counts",fontsize=55)
+    ax[0].set_ylabel("Scaled counts",fontsize=55)
     #ax[1,0].set_ylabel("Normalized Counts",fontsize=55)
     
     noiseLevel = []
@@ -166,7 +173,7 @@ def processData(length_,data,calibrationFactor_):
         ax[counter].set_title(title_,fontsize=55)
         #if(counter > 4):
         ax[counter].set_xlabel("Velocity (mm/s)",fontsize=55)
-        ax[counter].set_ylim((1e-4,1.6)) #0.08
+        ax[counter].set_ylim((1e-4,1.25)) #0.08
         #ax[locs[counter][0],locs[counter][1]].set_yscale("log")
         ax[counter].set_xlim((-0.5,0.5))
 
@@ -205,11 +212,24 @@ def processData(length_,data,calibrationFactor_):
         noiseLevel.append(getRMSvel(noiseMass))
         #legendLabel = "Std. Dev. of Mass: " + str(np.round(np.std(masses),decimals=16)) + " kg \n S/N: " + str(np.round(np.power(getRMSvel(np.mean(masses))/getRMSvel(noiseMass),2),decimals=2))
         legendLabel = "Precision of fit: " + str(np.round(100*np.std(masses)/np.mean(masses),decimals=1)) + "%"
-        leg = ax[counter].legend(loc = 'upper center',fontsize=40)
-        leg.set_title(legendLabel, prop = {'size':40})
-
+        #leg = ax[counter].legend(loc = 'upper center',fontsize=60)
+        #leg.set_title(legendLabel, prop = {'size':60})
+        bbox_props = dict(boxstyle="round",color="w")
+        ax[counter].text(0.5, 0.95, legendLabel, transform=ax[counter].transAxes, fontsize=60,verticalalignment='top',horizontalalignment="center",bbox=bbox_props)
         counter = counter + 1
-
+    
+    ax[0].annotate("Data",
+            xy=(0.22, 0.4), xycoords='data',
+            xytext=(0.3, 0.45), textcoords='data',fontsize=50,
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3",linewidth=5),
+            )
+    ax[0].annotate("Noise",
+            xy=(0.022,0.12), xycoords='data',
+            xytext=(0.05, 0.015), textcoords='data',fontsize=50,
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3",linewidth=5),
+            )
     plt.savefig("posterfittings.png")
     print noiseLevel
     print np.mean(noiseLevel)
