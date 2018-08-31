@@ -30,7 +30,7 @@ for i in locs:
 ## location is a path, MUST have a slash at the end
 
 default_run = '2018_08_22_11' #w'yyyy_mm_dd'
-default_noiserun = '2018_08_07_1_n'#'yyyy_mm_dd(_n)'
+default_noiserun = '2018_08_17_27_n'#'yyyy_mm_dd(_n)'
 samplingfreq = 10000000.
 
 datalocation = parameters.raw_data_location + default_run + '.txt'
@@ -48,9 +48,11 @@ data = np.array(list(open(datalocation, 'r')), dtype = float)
 # runs fourier analysis on positional data
 def fourier(run = default_run):
     
-    global data
     if run != default_run:
-        data = np.array(list(open(parameters.raw_data_location + run + '.txt', 'r')), dtype = float)
+        data = np.array(list(open('../Data/rawdata/2018_08_17_27_n.txt', 'r')), dtype = float)
+    else:
+        global data
+    
     print 'running fourier analysis...'
     freq = np.fft.fftfreq(data.size, 1/samplingfreq)
     fft = np.fft.fft(data)
@@ -95,14 +97,17 @@ def plot_fft(run = default_run, plot = True, window = None):
 ### TO MODIFY FILTERS, CHANGE VALUES IN THE filters VARIABLE #####################
 ##################################################################################
     
-def filter_noise(run = default_run, plot = True):
+def filter_noise(run = default_run, noise = default_noiserun, plot = True):
     
     filters = plot_fft(run, plot = False) # ranges that will be filtered
     use_average = False # make this true if you're setting filtered values to some average instead of 0
     
     freq, fft = fourier(run)
     power = abs(fft)**2
-    fftnew = np.array(fft)  
+    fftnew = np.array(fft)
+    
+    fft_noise = fourier(noise)[1]
+    power_noise = abs(fft_noise)**2
 
     # average = TK
     print 'applying filters...'
@@ -114,13 +119,21 @@ def filter_noise(run = default_run, plot = True):
         if val == 0:
             fftnew[i] = 0
             #fftnew[i] = average #if we decide filters should use average value instead of 0
-    powernew = abs(fftnew)**2
+    #powernew = abs(fftnew)**2
      
     if plot:
         plt.figure(figsize = (10,10))
-        plt.suptitle('Power spectra and positional data, before and after noise filtering')
-        
+        plt.suptitle('Power spectra and positional data, before and after noise filtering', fontsize = 20)
+    
         plt.subplot(221)
+        plt.xlabel('Frequency (Hz)')
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.title('After')
+        plt.plot(freq, power_noise, ',') 
+        
+        
+        plt.subplot(222)
         for pair in filters:
             plt.axvspan(pair[0], pair[1], alpha=0.25, color='red')
         plt.xlabel('Frequency (Hz)')
@@ -129,19 +142,10 @@ def filter_noise(run = default_run, plot = True):
         plt.ylabel('Power spectrum')
         plt.title('Before')
         plt.plot(freq, power, ',')
-
         
-        plt.subplot(222)
-        plt.xlabel('Frequency (Hz)')
-        plt.xscale('log')
-        plt.yscale('log')
-        plt.title('After')
-        plt.plot(freq, powernew, ',')        
         window = 500
-        
-        
         t = np.arange(window)/samplingfreq
-        fftnew = filter_noise(run, False)[0]
+        fftnew = filter_noise(run, False)[0] #UH OH FIX THAT
         newdata = calibration_fac*np.fft.ifft(fftnew)
         
         plt.subplot(223)
@@ -154,8 +158,6 @@ def filter_noise(run = default_run, plot = True):
         plt.plot(t, newdata[1000:window+1000], lw = 1)
         
         plt.show()
-        
-        
         
     return fftnew, filters, use_average
 
@@ -258,3 +260,5 @@ def subtract(datarun = default_run, noiserun = default_noiserun, plot = True):
         plt.show()
     
     return subtracted
+
+filter_noise()
