@@ -9,15 +9,14 @@ import matplotlib
 import matplotlib.pyplot as plt
 from scipy import optimize
 
-matplotlib.rcParams.update({'errorbar.capsize': 5})
-matplotlib.rcParams.update({'font.size': 15})
+matplotlib.rcParams.update({'errorbar.capsize': 10})
+matplotlib.rcParams.update({'font.size': 12})
 
 #must first calibrate detector with calibration.py
 calibrationFactor = 4.0e-7
 
 #manually controls data input
 length = [399,300,200,100,50,25,10,5,2.5,1,] # x 1e4
-
 binning = 100
 RESOLUTION=5e-6
 
@@ -113,6 +112,7 @@ def getMass(calibrationFactor_,voltData_,sampling_,resolution_,binCount_,ax=[], 
         else:
             label_ = "Noise"
         ax[locs[counter][0],locs[counter][1]].plot(np.dot(1e3,fineBins),np.divide(dist,np.max(dist)),lineStyle, label=label_)
+    
     return measuredMass,cov
 
 #convert between voltage and position
@@ -198,21 +198,21 @@ stdDev,massEstimates,var = processData(length,dataList,calibrationFactor)
 normalizedMass = massEstimates/expectedMass(6.10*10**(-6))
 normStdDev = stdDev/expectedMass(6.10*10**(-6))
 normVar = var/expectedMass(6.10*10**(-6))
-f, ax = plt.subplots(2,1,figsize=(10,15))
-f.subplots_adjust(hspace= 0.5)
+f, ax = plt.subplots(2,1,figsize=(17,25))
+f.subplots_adjust(hspace= 0.3)
 
-ax[0].set_title("Mass estimates",fontsize=20)
-ax[0].set_ylabel("Normalized mass",fontsize=20)
-ax[0].set_xlabel("Length of data sample (ms)",fontsize=20)
+ax[0].set_title("Mass estimates",fontsize=45)
+ax[0].set_ylabel("Normalized mass",fontsize=45)
+ax[0].set_xlabel("Length of data sample (ms)",fontsize=45)
 ax[0].set_xscale("log")
-ax[0].errorbar(length,normalizedMass,yerr=normStdDev,fmt="o")
+ax[0].errorbar(length,normalizedMass,yerr=normStdDev,fmt="o",elinewidth=3,capthick=3)
 
-ax[1].set_title("Deviation of mass estimates",fontsize=20)
-ax[1].set_ylabel("Normalized \"Allan deviation\"",fontsize=20)
-ax[1].set_xlabel("Length of data sample (ms)",fontsize=20)
+ax[1].set_title("Deviation of mass estimates",fontsize=45)
+ax[1].set_ylabel("Normalized \"Allan deviation\"",fontsize=45)
+ax[1].set_xlabel("Length of data sample (ms)",fontsize=45)
 ax[1].set_xscale("log")
 ax[1].set_yscale("log")
 ax[1].set_ylim((0.9e-2,3e-1))
-ax[1].errorbar(length,normStdDev,yerr=np.sqrt(normVar),fmt="o")
+ax[1].errorbar(length,normStdDev,yerr=np.sqrt(normVar),fmt="o",elinewidth=3,capthick=3)
 
 f.savefig("errors.png")
