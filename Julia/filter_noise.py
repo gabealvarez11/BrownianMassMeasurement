@@ -13,6 +13,8 @@ Created on Tue Aug  7 13:59:42 2018
 ### graph raw voltage data vs noise cancelled data
 
 
+''' infinite loop problem, gotta fix that '''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import parameters
