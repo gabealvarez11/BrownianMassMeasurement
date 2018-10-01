@@ -187,3 +187,11 @@
 2018_08_22_21, output power, 85mW (1.8A), 6.1um, 10MHz, 4000128 points
 2018_08_22_22, output power, 89mW (1.9A), 6.1um, 10MHz, 4000128 points
 2018_08_22_23, output power, 94mW (2.0A), 6.1um, 10MHz, 4000128 points
+2018_10_01_1, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater off
+2018_10_01_2, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater off
+2018_10_01_3, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater on
+2018_10_01_4, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater on
+2018_10_01_5, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater off
+2018_10_01_6, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater off
+2018_10_01_7, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater on
+2018_10_01_8, output power, 50mW (1.2A), null, 10MHz, 4000128 points, noise eater on

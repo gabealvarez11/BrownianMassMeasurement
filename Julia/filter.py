@@ -56,8 +56,8 @@ def plot_fft(run = default_run):
     
     plt.title('power spectrum: ' + run)
     plt.xlabel('frequency (Hz)')
-    #plt.xscale('log')
-    #plt.yscale('log')
+    plt.xscale('log')
+    plt.yscale('log')
     plt.plot(freq, power, ',')
     
 ##################################################################################

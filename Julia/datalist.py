@@ -49,3 +49,9 @@ class DataList(object):
         except AttributeError:
             self.get_filtered_fft()
         self.clean_data = np.fft.ifft(self.filtered_fft)
+        
+        
+        
+x = DataList('2018_08_22_1')
+print x.current
+print x.get_rawdata()
